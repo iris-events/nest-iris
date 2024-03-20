@@ -1,10 +1,3 @@
-# IRIS NestJS module
-
-Install: `npm i @iris-events/nestjs-iris`
-
-### Example
-
-```ts
 import { Controller, Logger, Module } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { IsNumber, IsString } from 'class-validator'
@@ -14,7 +7,7 @@ import {
   Message,
   MessageHandler,
   publish,
-} from '@iris-events/nestjs-iris'
+} from '../src'
 
 @Message({ name: 'ping' })
 class Ping {
@@ -61,4 +54,16 @@ class PingController {
 })
 class App {}
 
-```
+async function start() {
+  const app = await NestFactory.create(App)
+
+  app.connectMicroservice({
+    strategy: app.get(IrisServer),
+  })
+
+  await app.init()
+
+  await publish.getPublisher(Ping)({ ping: 'ping', count: 0 })
+}
+
+start()
