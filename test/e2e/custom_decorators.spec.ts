@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto'
-import { Controller, UseGuards } from '@nestjs/common'
+import { Controller, INestApplication, UseGuards } from '@nestjs/common'
 import { JwtModule, JwtService } from '@nestjs/jwt'
 import { IsEnum, IsString } from 'class-validator'
 import type { MockInstance } from 'vitest'
@@ -52,9 +52,10 @@ class ErrHandler {
 describe('Custom param decorators', () => {
   let testServer: IrisTestServer<MockInstance>
   let jwtService: JwtService
+  let app: INestApplication
 
   beforeAll(async () => {
-    const app = await getTestApp({
+    app = await getTestApp({
       imports: [JwtModule.register({ secret: 'secret' })],
       controllers: [Handler, ErrHandler],
     })
@@ -69,6 +70,7 @@ describe('Custom param decorators', () => {
 
   afterAll(async () => {
     await testServer.clearQueues(true)
+    await app.close()
   })
 
   test('Custom guard for handler class should be applied to all handler methods', async () => {

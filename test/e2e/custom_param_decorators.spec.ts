@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto'
-import { Controller } from '@nestjs/common'
+import { Controller, INestApplication } from '@nestjs/common'
 import { IsString } from 'class-validator'
 import type { MockInstance } from 'vitest'
 import { Message, MessageHandler, publish } from '../../src'
@@ -23,9 +23,10 @@ class Handler {
 
 describe('Custom param decorators', () => {
   let testServer: IrisTestServer<MockInstance>
+  let app: INestApplication
 
   beforeAll(async () => {
-    const app = await getTestApp({
+    app = await getTestApp({
       controllers: [Handler],
     })
 
@@ -38,6 +39,7 @@ describe('Custom param decorators', () => {
 
   afterAll(async () => {
     await testServer.clearQueues(true)
+    await app.close()
   })
 
   test('Custom param decorators should work', async () => {
