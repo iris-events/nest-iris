@@ -1,12 +1,14 @@
 {
   "name": "@iris-events/nestjs-iris",
-  "version": "1.0.0",
+  "version": "1.0.0-alpha.1",
   "description": "NestJS integration for @iris-events/iris",
   "main": "dist/index",
   "types": "dist/index.d.ts",
   "author": "GlobaliD",
   "license": "Apache-2.0",
-  "keywords": ["nestjs iris iris-events"],
+  "keywords": [
+    "nestjs iris iris-events"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/iris-events/nest-iris"
