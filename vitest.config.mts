@@ -31,6 +31,7 @@ export default defineConfig({
         '**/test?(s)/**',
         '**/vitest*',
         'src/asyncapi/index.ts',
+        'examples/**/*',
       ]
     },
   },

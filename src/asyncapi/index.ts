@@ -1,6 +1,6 @@
 import { AsyncapiSchema, DocumentBuilder } from '@iris-events/iris/asyncapi'
-import { NestApplicationOptions } from '@nestjs/common'
-import { NestFactory } from '@nestjs/core'
+import { INestApplicationContext, NestApplicationOptions } from '@nestjs/common'
+import { NestApplicationContext, NestFactory } from '@nestjs/core'
 import { IrisDiscovery, collectProcessedMessages } from '..'
 
 export * from '@iris-events/iris/asyncapi'
@@ -15,11 +15,11 @@ export interface GenerateAsyncapiOptsI {
 }
 
 export async function generateAsyncapiDocument(
-  nestModuleClass: any,
+  nestModuleClassOrApp: any | INestApplicationContext,
   docOrOpts?: GenerateAsyncapiOptsI | DocumentBuilder,
   opts?: NestApplicationOptions,
 ) {
-  const asyncapiSchema = await getAsyncapiSchema(nestModuleClass, opts)
+  const asyncapiSchema = await getAsyncapiSchema(nestModuleClassOrApp, opts)
 
   const document =
     docOrOpts instanceof DocumentBuilder
@@ -36,18 +36,18 @@ export async function generateAsyncapiDocument(
 }
 
 export async function getAsyncapiSchema(
-  nestModuleClass: any,
+  nestModuleClassOrApp: any | INestApplicationContext,
   opts?: NestApplicationOptions,
 ): Promise<AsyncapiSchema> {
-  const moduleRef = await NestFactory.createApplicationContext(
-    nestModuleClass,
-    {
-      bufferLogs: true,
-      ...opts,
-    },
-  )
+  const app =
+    nestModuleClassOrApp instanceof NestApplicationContext
+      ? nestModuleClassOrApp
+      : await NestFactory.createApplicationContext(nestModuleClassOrApp, {
+          bufferLogs: true,
+          ...opts,
+        })
 
-  const handlers = moduleRef
+  const handlers = app
     .get(IrisDiscovery)
     .findIrisHandlers()
     .map(({ meta }) => meta)
