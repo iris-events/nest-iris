@@ -1,0 +1,57 @@
+name: Test
+on:
+  push:
+    branches:
+      - '**'
+  workflow_dispatch:
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Biome
+        uses: biomejs/setup-biome@v2
+        with:
+          version: latest
+      - name: Version
+        run: biome --version
+      - name: Run lint
+        run: biome ci .
+  test:
+    name: Setup and test
+    runs-on: ubuntu-latest
+    services:
+      rabbitmq:
+        image: rabbitmq:3-management-alpine
+        env:
+          RABBITMQ_DEFAULT_USER: guest
+          RABBITMQ_DEFAULT_PASS: guest
+        ports:
+          - 5672:5672
+          - 15672:15672
+      redis:
+        image: redis:latest
+        ports:
+        - "6379:6379"
+    env:
+      AMQP_URL: amqp://guest:guest@127.0.0.1:5672
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      TESTS_SKIP_RESILIENCE: 0
+
+    strategy:
+      matrix:
+        node-version: [ '18', '20' ]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build:test
+      - run: npm test
+
