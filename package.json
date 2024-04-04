@@ -27,7 +27,7 @@
     "@nestjs/common": ">=10",
     "@nestjs/core": ">=10",
     "@nestjs/microservices": ">=10",
-    "reflect-metadata": "^0.2.1"
+    "reflect-metadata": "^0.2.2"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.6.2",
@@ -47,7 +47,7 @@
     "vitest": "^1.4.0"
   },
   "overrides": {
-    "reflect-metadata": "^0.2.1"
+    "reflect-metadata": "^0.2.2"
   },
   "dependencies": {
     "@nestjs/terminus": "^10.2.3",
