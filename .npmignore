@@ -1,0 +1,9 @@
+*
+!dist/**/*
+!asyncapi/**/*
+!testing/**/*
+!types/**/*
+!pacakge.json
+!*.md
+!LICENSE
+TODO.md

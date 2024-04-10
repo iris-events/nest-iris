@@ -1,0 +1,11 @@
+import 'reflect-metadata'
+import './iris.integration'
+
+export * from '@iris-events/iris'
+export * from './interfaces'
+export * from './iris.module'
+export * from './iris.decorators'
+export * from './iris.discovery'
+export * from './iris.server'
+export * as logging from './logger'
+export * from './health'

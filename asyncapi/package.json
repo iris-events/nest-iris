@@ -1,0 +1,6 @@
+{
+  "name": "@iris-events/nest-iris/asyncapi",
+  "typings": "../dist/asyncapi/index.d.ts",
+  "main": "../dist/asyncapi/index.js"
+}
+
