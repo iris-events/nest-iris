@@ -40,11 +40,11 @@
     "@types/amqplib": "^0.10.5",
     "@types/lodash": "^4.14.202",
     "@types/node": "*",
-    "@vitest/coverage-v8": "^1.4.0",
+    "@vitest/coverage-v8": "^2.0.1",
     "dotenv": "^16.4.5",
     "ts-node": "^10.9.2",
     "unplugin-swc": "^1.4.4",
-    "vitest": "^1.4.0"
+    "vitest": "^2.0.1"
   },
   "overrides": {
     "reflect-metadata": "^0.2.2"
