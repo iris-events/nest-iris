@@ -23,7 +23,7 @@
     "lint:fix": "biome check --apply ."
   },
   "peerDependencies": {
-    "@iris-events/iris": "2.0.0",
+    "@iris-events/iris": ">=2.0.1",
     "@nestjs/common": ">=10",
     "@nestjs/core": ">=10",
     "@nestjs/microservices": ">=10",

@@ -79,6 +79,7 @@ describe('Publish and Consume events', () => {
       { name: 'foo_evt' },
       {
         amqpPublishOpts: {
+          correlationId: mdc.correlationId,
           headers: {
             'x-session-id': mdc.sessionId,
             'x-user-id': mdc.userId,
@@ -119,10 +120,10 @@ describe('Publish and Consume events', () => {
           name: 'foo_evt2',
         },
         expect.anything(),
-        {
+        expect.objectContaining({
           eventType:
             getProcessedMessageDecoratedClass(Foo).processedConfig.exchangeName,
-        },
+        }),
       )
 
       expect(
