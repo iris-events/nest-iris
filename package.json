@@ -35,7 +35,7 @@
     "@nestjs/jwt": "^10.2.0",
     "@nestjs/platform-express": ">=10",
     "@nestjs/testing": ">=10",
-    "@swc/cli": "^0.3.10",
+    "@swc/cli": "^0.6.0",
     "@swc/core": "^1.5.0",
     "@types/amqplib": "^0.10.5",
     "@types/lodash": "^4.14.202",
