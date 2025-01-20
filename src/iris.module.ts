@@ -20,9 +20,11 @@ export class IrisModule
   implements OnApplicationBootstrap, OnApplicationShutdown
 {
   protected readonly TAG = IrisModule.name
-  protected readonly logger = new Logger()
 
-  constructor(protected readonly server: IrisServer) {}
+  constructor(
+    protected readonly server: IrisServer,
+    protected readonly logger: Logger,
+  ) {}
 
   static forRoot(config: IrisOptionsI): DynamicModule {
     return IrisModule._forRoot(config)
@@ -32,17 +34,18 @@ export class IrisModule
     config: IrisOptionsI,
     server: typeof IrisServer = IrisServer,
     mod: typeof IrisModule = IrisModule,
-  ) {
+  ): DynamicModule {
     IrisModule.registerOptions(config)
 
     return {
       module: mod,
       providers: [
+        config.logger || Logger,
         {
           provide: server,
-          inject: [IrisDiscovery],
-          useFactory: (discovery: IrisDiscovery) =>
-            new server(discovery, config),
+          inject: [IrisDiscovery, Logger],
+          useFactory: (discovery: IrisDiscovery, logger: Logger) =>
+            new server(discovery, logger, config),
         },
       ],
     }
