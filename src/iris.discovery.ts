@@ -8,9 +8,11 @@ import { describeHandler } from './util'
 @Injectable()
 export class IrisDiscovery {
   protected readonly TAG = 'IrisDiscovery'
-  protected readonly logger = new Logger()
 
-  constructor(private readonly discover: DiscoveryService) {}
+  constructor(
+    private readonly discover: DiscoveryService,
+    private readonly logger: Logger,
+  ) {}
 
   findIrisHandlers(): ifaces.DiscoveredProcessMessageHandlerMetadataI[] {
     return this.discover

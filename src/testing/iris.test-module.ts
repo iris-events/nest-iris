@@ -1,4 +1,4 @@
-import { Global, Module } from '@nestjs/common'
+import { Global, Logger, Module } from '@nestjs/common'
 import type { DynamicModule } from '@nestjs/common/interfaces'
 import type { IrisOptionsI } from '../interfaces'
 
@@ -11,8 +11,11 @@ import { IrisTestServer } from './iris.test-server'
 export class IrisTestModule extends IrisModule {
   protected readonly TAG = IrisTestModule.name
 
-  constructor(protected readonly server: IrisTestServer<unknown>) {
-    super(server)
+  constructor(
+    protected readonly server: IrisTestServer<unknown>,
+    protected readonly logger: Logger,
+  ) {
+    super(server, logger)
   }
 
   /**

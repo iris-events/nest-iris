@@ -22,10 +22,10 @@ export class IrisContext extends BaseRpcContext<Record<string, any>> {}
 export class IrisServer extends Server implements CustomTransportStrategy {
   protected handlers: DiscoveredProcessMessageHandlerMetadataI[]
   protected readonly TAG = IrisServer.name
-  protected readonly logger = new Logger()
 
   constructor(
     protected readonly discovery: IrisDiscovery,
+    protected readonly logger: Logger,
     protected readonly options?: IrisOptionsI,
   ) {
     super()
@@ -34,7 +34,7 @@ export class IrisServer extends Server implements CustomTransportStrategy {
     this.decorateHandlers()
   }
 
-  public async listen(
+  async listen(
     callback: (err?: unknown, ...optionalParams: unknown[]) => void,
   ): Promise<void> {
     this.logger.debug(this.TAG, 'listen()')
@@ -43,7 +43,7 @@ export class IrisServer extends Server implements CustomTransportStrategy {
       .catch((err) => callback(err))
   }
 
-  public async close(): Promise<void> {
+  async close(): Promise<void> {
     if (!iris.connection.isDisconnected()) {
       this.logger.log(this.TAG, 'Closing AMQP connection.')
       await iris.connection.disconnect()
